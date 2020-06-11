@@ -1,0 +1,23 @@
+{
+    "name": "mauricius/wireframe-blade-renderer",
+    "type": "pw-module",
+    "description": "Blade renderer for the Wireframe output framework.",
+    "keywords": [ "laravel blade", "template", "framework", "processwire" ],
+    "homepage": "https://wireframe-framework.com",
+    "license": "MPL-2.0",
+    "authors": [
+        {
+            "name": "Maurizio Bonani",
+            "homepage": "https://wireframe-framework.com",
+            "email": "teppo@wireframe-framework.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "wireframe-framework/processwire-composer-installer": "^1.0.0",
+        "jenssegers/blade": "^1.3"
+    },
+    "autoload": {
+        "files" : ["helpers.php"]
+    }
+}
