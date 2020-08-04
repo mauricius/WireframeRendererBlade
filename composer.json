@@ -8,8 +8,8 @@
     "authors": [
         {
             "name": "Maurizio Bonani",
-            "homepage": "https://wireframe-framework.com",
-            "email": "teppo@wireframe-framework.com"
+            "homepage": "https://github.com/mauricius/WireframeRendererBlade",
+            "email": "maurizio.bonani@gmail.com"
         }
     ],
     "require": {
