@@ -99,7 +99,7 @@ class WireframeRendererBlade extends Wire implements Module
      */
     protected function adaptView($view)
     {
-        return rtrim(str_replace('/', '.', $view), $this->ext);
+        return preg_replace('/.'. $this->ext . '$/', '', str_replace('/', '.', $view));
     }
 
     /**
