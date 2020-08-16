@@ -124,6 +124,47 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
 @endsuperuser
 ```
 
+#### Adding a directive to cache partial HTML with [Markup Cache Module](https://modules.processwire.com/modules/markup-cache/)
+
+```php
+// site/ready.php
+$wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $event) use ($wire) {
+     $event->return->directive('cache', function ($expression) use ($wire) {
+        $args = array_map(function ($item) {
+            return trim($item);
+        }, explode(',', $expression));
+
+        $key = substr($args[0], 1, -1);
+        $duration = $args[1] ?? (24 * 60 * 60); // 24 hours
+
+        return implode('', [
+            "<?php ob_start(); ?>",
+            '<?php if (! $__partial = $modules->get("MarkupCache")->get("' . $key . '",' . $duration . ')) : ?>',
+        ]);
+    });
+
+    $event->return->directive('endcache', function () {
+        return implode('', [
+            '<?php endif; ?>',
+            '<?php if (! $__partial): ?>',
+            '<?php $__partial = ob_get_clean(); ?>',
+            '<?php $modules->get("MarkupCache")->save($__partial); ?>',
+            '<?php else : ?>',
+            '<?php ob_end_clean(); ?>',
+            '<?php endif; ?>',
+            '<?php echo $__partial; ?>',
+        ]);
+    });
+});
+
+```
+
+```
+@cache('my-cache-key', 3600)
+    {{-- heavy stuff here --}}
+@endcache
+```
+
 You can also access the [underlying Blade class](https://github.com/jenssegers/blade) from the `wireframe.php` file:
 
 ```php
