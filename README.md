@@ -156,13 +156,40 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
         ]);
     });
 });
-
 ```
 
 ```
 @cache('my-cache-key', 3600)
     {{-- heavy stuff here --}}
 @endcache
+```
+
+#### Adding a directive to cache an included file with [Markup Cache Module](https://modules.processwire.com/modules/markup-cache/)
+
+```php
+// site/ready.php
+$wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $event) use ($wire) {
+     $event->return->directive('cacheInclude', function ($expression) use ($wire) {
+        $args = array_map(function ($item) {
+            return trim($item);
+        }, explode(',', $expression));
+
+        $key = substr($args[0], 1, -1);
+        $duration = $args[1] ?? (24 * 60 * 60); // 24 hours
+
+        return implode('', [
+            '<?php if (! $__partial = $modules->get("MarkupCache")->get("' . $key . '",' . $duration . ')) : ?>',
+            '<?php $__partial = $__env->make("' . $key . '", \Illuminate\Support\Arr::except(get_defined_vars(), ["__data", "__path"]))->render(); ?>',
+            '<?php $modules->get("MarkupCache")->save($__partial); ?>',
+            '<?php endif; ?>',
+            '<?php echo $__partial; ?>'
+        ]);
+    });
+});
+```
+
+```
+@cacheInclude('my-partial', 3600)
 ```
 
 You can also access the [underlying Blade class](https://github.com/jenssegers/blade) from the `wireframe.php` file:
