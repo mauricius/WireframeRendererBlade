@@ -1,7 +1,7 @@
 {
     "title": "Wireframe Renderer: Blade",
     "summary": "Blade renderer for the Wireframe output framework.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "Maurizio Bonani",
     "href": "https://wireframe-framework.com",
     "requires": [
