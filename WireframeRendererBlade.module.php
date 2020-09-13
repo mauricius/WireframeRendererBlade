@@ -86,9 +86,25 @@ class WireframeRendererBlade extends Wire implements Module
             throw new WireException(sprintf('Unexpected type (%s).', $type));
         }
 
+        if ($type !== 'view') {
+            $view = $this->namespaceView($type, $view);
+        }
+
         $view = $this->adaptView($view);
 
         return $this->blade->make($view, $context)->render();
+    }
+
+    /**
+     * Namespace the view.
+     *
+     * @param  string $type
+     * @param  string $view
+     * @return string
+     */
+    protected function namespaceView(string $type, string $view)
+    {
+        return $type . '::' . $view;
     }
 
     /**
