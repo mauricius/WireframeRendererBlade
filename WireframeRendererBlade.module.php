@@ -9,7 +9,7 @@ use Jenssegers\Blade\Blade;
 /**
  * Wireframe Renderer Blade
  *
- * @version 0.1.1
+ * @version 0.2.0
  * @author Maurizio Bonani <maurizio.bonani@gmail.com>
  * @license Mozilla Public License v2.0 https://mozilla.org/MPL/2.0/
  */
