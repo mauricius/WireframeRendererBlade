@@ -234,6 +234,10 @@ Finally you can use the `$textdomain` variable wherever you need to translate st
 {{ __("Translate me", $textdomain) }}
 ```
 
+### Laravel Mix
+
+In case you're using [Laravel Mix](https://laravel-mix.com/), `WireframeRendererBlade` provides a `mix` function to reference frontend assets.
+
 ### Gotchas
 
 Some Blade directives don't work in the ProcessWire context. A few examples are `@inject`, `@can` and `@cannot`.
