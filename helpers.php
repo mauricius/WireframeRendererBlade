@@ -69,6 +69,6 @@ if (! function_exists('mix'))
             return $path;
         }
 
-        return $config->urls->httpRoot . $manifestDirectory.$manifest[$path];
+        return $manifestDirectory.$manifest[$path];
     }
 }
