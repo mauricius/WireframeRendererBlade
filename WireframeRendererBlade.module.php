@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace ProcessWire;
 
 use Jenssegers\Blade\Blade;
+use Jenssegers\Blade\Container;
 
 /**
  * Wireframe Renderer Blade
  *
- * @version 0.2.0
+ * @version 0.3.0
  * @author Maurizio Bonani <maurizio.bonani@gmail.com>
  * @license Mozilla Public License v2.0 https://mozilla.org/MPL/2.0/
  */
@@ -20,14 +21,14 @@ class WireframeRendererBlade extends Wire implements Module
      *
      * @var Blade
      */
-    protected $blade;
+    protected Blade $blade;
 
     /**
      * Default extension.
      *
      * @var string
      */
-    protected $ext = 'blade.php';
+    protected string $ext = 'blade.php';
 
     /**
      * Init method
@@ -52,6 +53,7 @@ class WireframeRendererBlade extends Wire implements Module
      *
      * @param array $settings Blade settings.
      * @return Blade
+     * @throws WireException
      */
     public function ___initBlade(array $settings = []): Blade
     {
@@ -62,7 +64,8 @@ class WireframeRendererBlade extends Wire implements Module
         $views = $settings['views'] ?? $viewPaths['view'];
         $cache = $settings['cache'] ?? $this->wire('config')->paths->cache . 'WireframeRendererBlade';
 
-        $blade = new Blade($views, $cache);
+        // see https://github.com/jenssegers/blade/issues/74
+        $blade = new Blade($views, $cache, Container::getInstance());
 
         $blade->addNamespace('layout', $viewPaths['layout']);
         $blade->addNamespace('partial', $viewPaths['partial']);
@@ -82,7 +85,7 @@ class WireframeRendererBlade extends Wire implements Module
      */
     public function render(string $type, string $view, array $context = []): string
     {
-        if (! in_array($type, array_keys($this->wire('modules')->get('Wireframe')->getViewPaths()))) {
+        if (! in_array($type, array_keys($this->wire('modules')->get('Wireframe')->getViewPaths()), true)) {
             throw new WireException(sprintf('Unexpected type (%s).', $type));
         }
 
@@ -102,7 +105,7 @@ class WireframeRendererBlade extends Wire implements Module
      * @param  string $view
      * @return string
      */
-    protected function namespaceView(string $type, string $view)
+    protected function namespaceView(string $type, string $view): string
     {
         return $type . '::' . $view;
     }
@@ -110,10 +113,10 @@ class WireframeRendererBlade extends Wire implements Module
     /**
      * Adapt view path to Blade notation.
      *
-     * @param  string $view
+     * @param string $view
      * @return string
      */
-    protected function adaptView($view)
+    protected function adaptView(string $view): string
     {
         return preg_replace('/.'. $this->ext . '$/', '', str_replace('/', '.', $view));
     }
