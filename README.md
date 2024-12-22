@@ -12,13 +12,13 @@ First of all, you need to install both Wireframe and WireframeRenderBlade.
 
 Then you have to install the dependencies of WireframeRenderBlade by running
 
-```
+```bash
 composer install
 ```
 
 in the module folder.
 
-Finally you can set up Wireframe (as instructed at https://wireframe-framework.com/getting-started/). Once that's done, you can open the bootstrap file (`wireframe.php`) and instruct Wireframe to use the Blade renderer:
+Finally, you can set up Wireframe (as instructed at https://wireframe-framework.com/getting-started/). Once that's done, you can open the bootstrap file (`wireframe.php`) and instruct Wireframe to use the Blade renderer:
 
 ```php
 // during Wireframe init (this is the preferred way):
@@ -55,7 +55,7 @@ Note that if a Blade file can't be found, Wireframe will automatically fall back
 
 Blade allows you to extend a parent layout using the Blade `@extends` directive, to specify which layout the child view should "inherit". By default all layouts are referenced from the `views` folder
 
-```
+```bladehtml
 @extends('layout')
 ```
 
@@ -66,9 +66,9 @@ Blade allows you to extend a parent layout using the Blade `@extends` directive,
 |   └-- child.blade.php
 ```
 
-Otherwise you can keep the Wireframe concept of layout and use a Blade file from the `layouts` folder, by prefixing the layout with the `layout::` namespace
+Otherwise, you can keep the Wireframe concept of layout and use a Blade file from the `layouts` folder, by prefixing the layout with the `layout::` namespace
 
-```
+```bladehtml
 @extends('layout::layout')
 ```
 
@@ -100,7 +100,7 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
 
 ```
 
-```
+```bladehtml
 @hello('World')
 ```
 
@@ -116,7 +116,7 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
 
 ```
 
-```
+```bladehtml
 @superuser
     <h2>Hello</h2>
 @else
@@ -158,7 +158,7 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
 });
 ```
 
-```
+```bladehtml
 @cache('my-cache-key', 3600)
     {{-- heavy stuff here --}}
 @endcache
@@ -188,7 +188,7 @@ $wire->addHookAfter('WireframeRendererBlade::initBlade', function(HookEvent $eve
 });
 ```
 
-```
+```bladehtml
 @cacheInclude('my-partial', 3600)
 ```
 
@@ -230,7 +230,7 @@ $wireframe->view->getRenderer()->getBladeInstance()->composer('*', function($vie
 
 Finally you can use the `$textdomain` variable wherever you need to translate strings
 
-```
+```bladehtml
 {{ __("Translate me", $textdomain) }}
 ```
 
